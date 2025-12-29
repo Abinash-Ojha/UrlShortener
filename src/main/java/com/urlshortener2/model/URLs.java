@@ -9,8 +9,9 @@ public class URLs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
-    private String origionalUrl;
+    @Column(name="original_url",nullable = false)
+    private String originalUrl;
+    @Column(unique = true)
     private String shortUrl;
     private LocalDateTime createdAt;
 
@@ -23,11 +24,11 @@ public class URLs {
     }
 
     public String getOrigionalUrl() {
-        return origionalUrl;
+        return originalUrl;
     }
 
     public void setOrigionalUrl(String origionalUrl) {
-        this.origionalUrl = origionalUrl;
+        this.originalUrl = origionalUrl;
     }
 
     public String getShortUrl() {

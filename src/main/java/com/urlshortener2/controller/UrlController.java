@@ -1,17 +1,15 @@
 package com.urlshortener2.controller;
 
-import com.urlshortener2.model.URLs;
+import com.urlshortener2.DTO.URLDTO;
 import com.urlshortener2.service.RateLimitorService;
 import com.urlshortener2.service.UrlService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/url")
@@ -25,9 +23,9 @@ public class UrlController {
 
 
     @PostMapping("/shortenUrl")
-    public ResponseEntity<String> getShortUrl(@RequestBody Map<String,String> request){
-        String origionalUrl =request.get("longUrl");
-        String shortUrl=urlService.getShortendUrl(origionalUrl);
+    public ResponseEntity<String> getShortUrl(@RequestBody URLDTO request){
+        String originalUrl =request.getOriginalUrl();
+        String shortUrl=urlService.getShortendUrl(originalUrl);
         return ResponseEntity.ok(shortUrl);
     }
     @GetMapping("/{shortUrl}")

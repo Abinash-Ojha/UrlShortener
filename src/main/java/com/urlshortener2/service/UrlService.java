@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -13,7 +14,7 @@ import java.util.Random;
 
 @Service
 public class UrlService {
-    private Random random=new Random();
+    private SecureRandom random=new SecureRandom();
     private URLRepository urlRepository;
     @Autowired
     private StringRedisTemplate redisTemplate;
@@ -24,13 +25,16 @@ public class UrlService {
         String chars="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         StringBuilder sb=new StringBuilder();
         for(int i=0;i<7;i++) {
-            int index = (int) (Math.random() * chars.length());
+            int index = random.nextInt(chars.length());
             sb.append(chars.charAt(index));
         }
         return sb.toString();
     }
     public String getShortendUrl(String longUrl){
         String shortUrl=shortenUrl();
+        while(urlRepository.existsByShortUrl(shortUrl)){
+            shortUrl=shortenUrl();
+        }
         URLs urls=new URLs();
         urls.setOrigionalUrl(longUrl);
         urls.setShortUrl(shortUrl);
@@ -42,7 +46,7 @@ public class UrlService {
         String cachedUrl=redisTemplate.opsForValue().get(shortUrl);
         if(cachedUrl!=null){
             System.out.println("🔥 Cache Hit: Value retrieved from Redis");
-            return cachedUrl;
+            return cachedUrl+" From Cache";
         }
         System.out.println("❌ Cache Miss: Fetching from DB");
        Optional<URLs> urls=urlRepository.findByShortUrl(shortUrl);
@@ -58,7 +62,7 @@ public class UrlService {
 
        String origionalUrl=  url.getOrigionalUrl();
        redisTemplate.opsForValue().set(shortUrl,origionalUrl, Duration.ofHours(1));
-       return origionalUrl;
+       return origionalUrl+" From Database";
 
     }
 
