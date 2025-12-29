@@ -95,5 +95,13 @@ If exceeded:
   "limit": 10,
   "window": "1 minute"
 }
+```
+
+🖼️ Architecture & Flow Diagrams
+<img width="857" height="316" alt="CacheRedis" src="https://github.com/user-attachments/assets/a02c6a08-b277-4de6-adcd-e4a01ffbe5bb" />
+<img width="899" height="507" alt="RateLimitngRedis" src="https://github.com/user-attachments/assets/8d0659f6-ee4b-4dd7-b486-a6e4ec41303b" />
+<img width="1918" height="1018" alt="RateLimitor" src="https://github.com/user-attachments/assets/73f0818a-980f-488c-83f9-f948c957412f" />
+<img width="1918" height="1021" alt="ResponseFrom Database" src="https://github.com/user-attachments/assets/8f8092b2-838f-47e0-aba5-6479fe735a1f" />
+<img width="1918" height="1021" alt="ResponseFromCache" src="https://github.com/user-attachments/assets/b90fb86c-32da-438a-bee7-66a5e8a1abf9" />
 
 
